@@ -1,18 +1,41 @@
 <div ng-controller="UdpViewCtrl">
     <div class="col-md-10 col-md-offset-1">
-        <input type="checkbox" ng-model="tables.table11" ng-checked="queryStock">概念股-涨停占比
-        <input type="checkbox" ng-model="tables.table12" ng-checked="queryStock">概念股-上涨占比
-        <input type="checkbox" ng-model="tables.table13" ng-checked="queryStock">概念股-资金流入
-        <input type="checkbox" ng-model="tables.table2" ng-checked="queryStock">资金流强势逆转
-        <input type="checkbox" ng-model="tables.table3" ng-checked="queryStock">30天20%
-    </div>
-    <div class="col-md-10 col-md-offset-1">
-        <table class="table table-bordered table-hover">
+        <table class="table">
             <tr>
-                <th></th>
+                <td class="text-right">概念股-涨停占比</td>
+                <td class="text-left"><input type="checkbox" ng-model="tables.table11"></td>
+                <td class="text-right">概念股-上涨占比</td>
+                <td class="text-left"><input type="checkbox" ng-model="tables.table12"></td>
             </tr>
             <tr>
-                <td></td>
+                <td class="text-right">概念股-资金流入</td>
+                <td class="text-left"><input type="checkbox" ng-model="tables.table13"></td>
+                <td class="text-right">资金流强势逆转</td>
+                <td class="text-left"><input type="checkbox" ng-model="tables.table2"></td>
+            </tr>
+            <tr>
+                <td class="text-right">30天20%</td>
+                <td class="text-left"><input type="checkbox" ng-model="tables.table3"></td>
+                <td class="text-right">日期</td>
+                <td class="text-left"><input type="text" date-picker="queryDate" max-view="year" min-view="date"
+                                             class="ng-isolate-scope"></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="text-center">
+                    <button class="btn btn-default" ng-click="queryStock()">查询</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-md-10 col-md-offset-1">
+        <table class="table table-bordered table-hover">
+            <!--<tr>
+                <th></th>
+            </tr>-->
+            <tr ng-repeat="stock in queryRes">
+                <td>{{ stock.stockid }}</td>
+                <td>{{ stock.stockname }}</td>
             </tr>
         </table>
     </div>

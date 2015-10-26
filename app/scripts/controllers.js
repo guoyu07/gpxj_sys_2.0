@@ -3,7 +3,6 @@
  */
 
 var gpxjCtrls = angular.module('gpxjCtrls', []);
-var udpViewDao = require('../../dao/udpViewDao');
 
 gpxjCtrls.controller('LoginCtrl', ['$scope', function ($scope) {
 
@@ -17,14 +16,14 @@ gpxjCtrls.controller('LoginCtrl', ['$scope', function ($scope) {
     }
 }])
 
-gpxjCtrls.controller('UdpViewCtrl', ['$scope', function ($scope) {
+gpxjCtrls.controller('UdpViewCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.tables = {
-        table11: true,
-        table12: true,
-        table13: true,
-        table2: false,
-        table3: false
+        'table11': true,
+        'table12': true,
+        'table13': true,
+        'table2': false,
+        'table3': false
     };
 
     $scope.login = function () {
@@ -32,6 +31,14 @@ gpxjCtrls.controller('UdpViewCtrl', ['$scope', function ($scope) {
     };
 
     $scope.queryStock = function () {
-        $scope.queryRes = udpViewDao.query($scope.tables);
+        console.log('checked');
+        $http({
+            method: 'GET',
+            url: '/udpView',
+            params: {'tables': $scope.tables}
+        }).success(function(res){
+            console.log('success');
+            $scope.queryRes = res;
+        });
     }
 }])
