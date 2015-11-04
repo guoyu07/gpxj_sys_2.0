@@ -1,0 +1,43 @@
+<div ng-controller="BlankCtrl">
+    <div class="header">
+        板块新增
+    </div>
+    <div class="block">
+        <form class="form-horizontal" name="addForm" method="post" ng-submit="submitAdd()">
+            <div class="form-group">
+                <label class="control-label col-sm-2">图片地址</label>
+
+                <div class="col-sm-6">
+                    <input type="file" class="form-control" name="image" file-model="newBlankInfo.image">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">先机妙语</label>
+
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="witticism" ng-model="newBlankInfo.witticism">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">背景</label>
+
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="background" ng-model="newBlankInfo.background">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">资金流数据</label>
+
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" ng-model="newBlankInfo.fund">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6 col-md-offset-4">
+                    <button class="btn btn-info" type="submit">提交</button>
+                    <button class="btn btn-default" ng-click="resetAll()">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

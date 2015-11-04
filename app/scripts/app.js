@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 /**
  * @ngdoc overview
@@ -17,5 +17,7 @@ angular
         'ngSanitize',
         'ngTouch',
         'gpxjCtrls',
-        'gpxjRouters'
+        'gpxjRouters',
+        'gpxjServices',
+        'gpxjDirective',
     ]);

@@ -1,0 +1,28 @@
+<div ng-controller="BlankCtrl">
+    <div class="header">
+        板块管理
+    </div>
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th width="10%">图片地址</th>
+            <th width="15%">先机妙语</th>
+            <th width="15%">背景</th>
+            <th width="10%">资金流数据</th>
+            <th width="10%">创建时间</th>
+            <th width="10%">最后更新时间</th>
+            <th width="30%">操作</th>
+        </tr>
+        <tr ng-repeat="blank in blankList">
+            <td><a href="{{ blank.imageurl }}">{{ blank.imageurl }}</a></td>
+            <td>{{ blank.witticism }}</td>
+            <td>{{ blank.background }}</td>
+            <td>{{ blank.fund }}</td>
+            <td>{{ blank.create_time }}</td>
+            <td>{{ blank.update_time }}</td>
+            <td>
+                <button class="btn btn-default">编辑</button>
+                <button class="btn btn-danger">删除</button>
+            </td>
+        </tr>
+    </table>
+</div>

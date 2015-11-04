@@ -19,34 +19,25 @@ gpxjRouters.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('index.usermng', {
-            url: '/usermng',
+        .state('index.blankmng', {
+            url: '/blankmng',
             views: {
                 'main@index': {
-                    templateUrl: 'views/users/usermng.html',
-                    controller: function($scope, $state) {
-                        $scope.addUserType = function() {
-                            $state.go("index.usermng.addusertype");
-                        }
-                    }
+                    templateUrl: 'views/blank/blankmng.html',
                 }
             }
         })
-        .state('index.usermng.highendusers', {
-            url: '/highendusers',
-            templateUrl: 'views/users/highendusers.html'
+        .state('index.blankmng.blank', {
+            url: '/blank',
+            templateUrl: 'views/blank/blank.html'
         })
-        .state('index.usermng.normalusers', {
-            url: '/normalusers',
-            templateUrl: 'views/users/normalusers.html'
+        .state('index.blankmng.addBlank', {
+            url: '/addBlank',
+            templateUrl: 'views/blank/addBlank.html'
         })
-        .state('index.usermng.lowusers', {
-            url: '/lowusers',
-            templateUrl: 'views/users/lowusers.html'
-        })
-        .state('index.usermng.addusertype', {
-            url: '/addusertype',
-            templateUrl: 'views/users/addusertypeform.html'
+        .state('index.blankmng.stock', {
+            url: '/stock',
+            templateUrl: 'views/blank/stock.html'
         })
         .state('index.udp-view', {
             url: '/udp-view',
@@ -56,11 +47,11 @@ gpxjRouters.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('index.report', {
-            url: '/report',
+        .state('index.stock', {
+            url: '/stock',
             views: {
                 'main@index': {
-                    template: 'report'
+                    templateUrl: 'views/stock/index.html'
                 }
             }
         })

@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 /*var routes = require('./routes/index');
  var user = require('./routes/user');*/
 var udpView = require('./routes/udpView');
+var blank = require('./routes/blank');
+var stock = require('./routes/stock');
 
 var app = express();
 
@@ -18,6 +20,9 @@ app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+//app.use(bodyParser({uploadDir:'./public/temp'}));
+// angular启动页
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -26,13 +31,13 @@ app.use(express.static(path.join(__dirname, 'app'))); // 此处需要修改为an
 
 /*app.use('/user', user);
  app.use('/', routes);*/
-
-// angular启动页
 app.get('/', function (req, res) {
     res.sendfile('app/index.html');
 })
 
 app.use('/udpView', udpView);
+app.use('/blank', blank);
+app.use('/stock', stock);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

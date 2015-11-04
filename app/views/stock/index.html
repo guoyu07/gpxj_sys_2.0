@@ -1,0 +1,54 @@
+<div ng-controller="StockCtrl">
+    <div class="col-md-12">
+        <div class="col-md-6 h4">请输入要查询的股票代码
+            <input type="text" ng-model="stock.stockid">
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-info" ng-click="queryIndex()">查询</button>
+        </div>
+    </div>
+    <div ng-show="true">
+        <div class="h3 col-md-offset-1">
+            股票名称：{{ stock.stockName }}&nbsp;&nbsp;&nbsp;&nbsp;
+            所属行业：{{ stock.stockCategory }}
+        </div>
+        <div class="col-md-8 col-md-offset-1">
+            <table class="table table-hover">
+                <tr>
+                    <td><input type="radio" ng-change="queryIndex()" ng-model="stock.tableCategory" value="debt">资产负债表</td>
+                    <td><input type="radio" ng-change="queryIndex()" ng-model="stock.tableCategory" value="cashflow">现金流量表</td>
+                    <td><input type="radio" ng-change="queryIndex()" ng-model="stock.tableCategory" value="profits">利润表</td>
+                    <td>年份：
+                        <input type="number" ng-change="queryIndex()" ng-model="stock.year" >
+                    </td>
+                </tr>
+                <tr ng-show="true">
+                    <td><input type="checkbox" ng-change="queryIndex()" ng-model="stock.day0">一季度</td>
+                    <td><input type="checkbox" ng-change="queryIndex()" ng-model="stock.day1">半年</td>
+                    <td><input type="checkbox" ng-change="queryIndex()" ng-model="stock.day2">三季度</td>
+                    <td><input type="checkbox" ng-change="queryIndex()" ng-model="stock.day3">年报</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-10 col-md-offset-1">
+                <table class="table table-hover table-bordered">
+                    <tr class="text-center">
+                        <th>项目</th>
+                        <th ng-show="stock.day0">一季度</th>
+                        <th ng-show="stock.day1">半年</th>
+                        <th ng-show="stock.day2">三季度</th>
+                        <th ng-show="stock.day3">年报</th>
+                    </tr>
+                    <tr ng-repeat="stockTemp in reStocks">
+                        <td>{{stockTemp.colName}}</td>
+                        <td ng-show="stock.day0">{{stockTemp.day0}}</td>
+                        <td ng-show="stock.day1">{{stockTemp.day1}}</td>
+                        <td ng-show="stock.day2">{{stockTemp.day2}}</td>
+                        <td ng-show="stock.day3">{{stockTemp.day3}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

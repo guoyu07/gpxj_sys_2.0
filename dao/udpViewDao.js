@@ -6,36 +6,22 @@ var mysql = require('mysql');
 var $conf = require('../conf/db-config.js');
 var $util = require('../util/util.js');
 
-var pool = mysql.createPool($util.extend({}, $conf.mysql));
+var pool = mysql.createPool($util.extend({}, $conf.stock_model));
 
 module.exports = {
     query: function (req, res, next) {
         pool.getConnection(function (err, connection) {
             console.log('into mysql');
             var param = JSON.parse(req.query.tables);
+            var queryDate = req.query.queryDate;
+            if (typeof(queryDate) == 'undefined') {
+                queryDate = $util.DateUtile.formate('yyyyMMdd');
+            }
             if (param.length <= 0) {
                 return;
             }
 
-            var paramTable = initQueryTable(param);
-            var querySql = 'select si.stockid stockid, si.stockname stockname, X.* ';
-
-            for (var i = 1; i < paramTable.tables.length; i++) {
-                querySql += ', X' + i + '.*'
-            }
-
-            querySql += ' from ';
-            querySql += paramTable.tables[0] + ' X ';
-            for (var i = 1; i < paramTable.tables.length; i++) {
-                querySql += ' left join ';
-                querySql += paramTable.tables[i] + ' X' + i;
-                querySql += ' on X.stockid = X' + i + '.stockid ';
-            }
-            querySql += ' left join stock_info si on X.stockid = si.stockid ';
-
-            /*for (var i = 0; i < paramTable.type.length; i++) {
-                querySql += ' where '
-            }*/
+            var querySql = initQueryTable(param, queryDate);
             console.log(querySql);
             connection.query(querySql, function (err, result) {
                 console.info(err);
@@ -47,34 +33,42 @@ module.exports = {
     }
 }
 
-function initQueryTable(param) {
+function initQueryTable(param, queryDate) {
     if (param != null) {
-        var tables = new Array();
-        var type = new Array();
-        var res = {
-            'tables': tables,
-            'type': type,
-        };
+        var select = "select si.stockid stockid, si.stockname stockname ";
+        var from = " from stock_info si ";
+        var where = " where 1 = 1 ";
 
         if (param.table11 || param.table12 || param.table13) {
-            tables.push('gainian_pools');
             if (param.table11) {
-                type.push('1')
+                select += ' , "涨停占比" as gainian_type1, gp1.gainian_name as gainian_name1, gp1.gains as gains11';
+                from += ' right join gainian_pools gp1 on si.stockid = gp1.stockid ';
+                where += ' and gp1.gainian_type = 1 and gp1.day = ' + queryDate;
             }
             if (param.table12) {
-                type.push('2')
+                select += ' , "上涨占比" as gainian_type2, gp2.gainian_name as gainian_name2, gp2.gains as gains12';
+                from += ' right join gainian_pools gp2 on si.stockid = gp2.stockid ';
+                where += ' and gp2.gainian_type = 2 and gp2.day = ' + queryDate;
             }
             if (param.table13) {
-                type.push('3')
+                select += ' , "资金流入" as gainian_type3, gp3.gainian_name as gainian_name3, gp3.gains as gains13';
+                from += ' right join gainian_pools gp3 on si.stockid = gp3.stockid ';
+                where += ' and gp3.gainian_type = 3 and gp3.day = ' + queryDate;
             }
         }
         if (param.table2) {
-            tables.push('ex_udp_pools');
+            select += ' , eup.capital_inflow, eup.current_price, eup.gains as gains2, eup.today_gains ';
+            from += ' right join ex_udp_pools eup on si.stockid = eup.stockid ';
+            where += ' and eup.day = ' + queryDate;
         }
         if (param.table3) {
-            tables.push('udp_jump');
+            select += ' , uj.close_price, uj.gains as gains3, uj.score, uj.week_gains  ';
+            from += ' right join udp_jump uj on si.stockid = uj.stockid ';
+            where += ' and uj.day = ' + queryDate;
         }
-        return res;
+
+        return select + from + where;
+
     }
     return null;
 }
